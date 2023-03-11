@@ -12,8 +12,13 @@ public class Request {
 
     final public String userName;
 
-    public Request(String userName, String location){
+    final public Boolean onlineMode;
+
+    public Request(final String userName,
+                   final String location, 
+                   final Boolean onlineMode){
         this.userName = userName;
         this.location = location;
+        this.onlineMode = onlineMode;
     }
 } 
