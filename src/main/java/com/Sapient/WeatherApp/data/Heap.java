@@ -1,6 +1,7 @@
 package com.Sapient.WeatherApp.data;
 
 import com.Sapient.WeatherApp.models.HeapNode;
+import com.Sapient.WeatherApp.data.Trie;
 
 import java.time.LocalDateTime;
 
@@ -8,10 +9,12 @@ class Heap {
     private final static Integer MAX = 10000;
     private Integer last;
     private HeapNode[] data;
+    private final Trie trie;
 
-    public Heap() {
+    public Heap(final Trie trie) {
         this.last = 0;
         this.data = new HeapNode[MAX];
+        this.trie = trie;
     }
 
     private void reOrderFromTop(final Integer index){
@@ -43,9 +46,11 @@ class Heap {
         if(this.last == 0){
             return;
         } else if(this.last == 1) {
+            trie.removeString(this.data[this.last].location);
             this.data[this.last] = null;
             this.last = 0;
         } else {
+            trie.removeString(this.data[this.last].location);
             this.data[1] = this.data[last];
             this.data[last] = null;
             last = last - 1;
@@ -53,7 +58,7 @@ class Heap {
         }
     }
 
-    private void cleanUp(final LocalDateTime now){
+    public void cleanUp(final LocalDateTime now){
         while(this.last>0 && this.data[1].timeStamp.plusHours(1).isBefore(now)){
             removeTop();
         }
@@ -74,7 +79,6 @@ class Heap {
 
     public void addNew(final String location, final LocalDateTime now){ 
         if(this.last+1<MAX){
-            cleanUp(now);
             this.last = this.last + 1;
             this.data[last] = new HeapNode(now, location);
             reOrderFromBottom(last);
