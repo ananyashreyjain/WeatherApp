@@ -12,7 +12,7 @@ public class HttpRequest {
         RestTemplate restTemplate = new RestTemplate();
         RawResponse rawResponse = Cache.getCache().getHistory(request);
         if(rawResponse == null){
-            String response = restTemplate.getForObject(UrlGenerator.generateUrl(request), String.class);
+            String response = restTemplate.getForObject(generateUrl(request), String.class);
             rawResponse = JsonParser.parse(response);
             Cache.getCache().storeHistory(request, rawResponse);
         } else {
@@ -24,5 +24,17 @@ public class HttpRequest {
         ret += "\n<br>Weather - " + rawResponse.weather.toString();
         ret += "\n<br>network Call - " + (!rawResponse.isCached());
         return ret;
+    }
+
+    private static String generateUrl(final Request request){
+
+        final String generatedUrl = request.URL + "?" 
+        + "appid" + "=" + request.appid
+        + "&" + "q" + "=" + request.location 
+        + "&" + "cnt" + "=" + request.cnt;
+
+        System.out.println(generatedUrl);
+        return generatedUrl;
+
     }
 }
