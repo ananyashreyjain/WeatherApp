@@ -1,4 +1,4 @@
-package com.Sapient.WeatherApp;
+package com.Sapient.WeatherApp.utilites;
 
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;

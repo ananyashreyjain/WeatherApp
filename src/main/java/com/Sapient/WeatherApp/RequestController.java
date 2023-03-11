@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.Sapient.WeatherApp.HttpRequest;
+import com.Sapient.WeatherApp.HttpRequestManager;
 import com.Sapient.WeatherApp.models.Request;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ public class RequestController
     @GetMapping("/")  
     public String request(@RequestParam Map<String,String> params){
         if(params.containsKey(NAME) && params.containsKey(LOCATION)){
-            return HttpRequest.makeRequest(
+            return HttpRequestManager.makeRequest(
                 new Request(params.get(NAME), params.get(LOCATION))
             );
         } else {
