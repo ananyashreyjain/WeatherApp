@@ -26,9 +26,10 @@ public class RequestController
             Logger.getLogger().logInfo("Received request from " 
                 + params.get(NAME) + " for location " + params.get(LOCATION)
                 + " with onlineMode set as " + onlineMode.toString());
-            return HttpRequestManager.makeRequest(
+            
+            return new HttpRequestManager(
                 new Request(params.get(NAME), params.get(LOCATION), onlineMode)
-            );
+            ).makeRequest();
         } else {
             Logger.getLogger().logError("Received request has missing params");
             return ERROR;

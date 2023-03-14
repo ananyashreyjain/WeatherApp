@@ -9,7 +9,7 @@ public class ResponseFormatter {
     private static final String RAIN_PREDICTION_COMMENT = "Carry umbrella";
     private static final String HIGH_WIND_COMMENT = "It’s too windy, watch out!";
     private static final Double HIGH_WIND_SPEED = 10.0;
-    private static final Double HIGH_TEMP = 313.0;
+    private static final Double HIGH_TEMP = 40.0;
     
     private static String checkTemp(final RawResponse rawResponse){
         if(rawResponse.maxTemp.size()>0 && 
@@ -20,8 +20,10 @@ public class ResponseFormatter {
     }
 
     private static String checkRain(final RawResponse rawResponse){
+        System.out.print(rawResponse.weather.get(0).toLowerCase());
         for(int i=0;i<rawResponse.weather.size();i++){
-            if(rawResponse.weather.get(i).toLowerCase() == "rain"){
+            if(rawResponse.weather.get(i).toLowerCase().compareTo("rain") == 0){
+                System.out.println(RAIN_PREDICTION_COMMENT);
                 return RAIN_PREDICTION_COMMENT;
             }
         }
