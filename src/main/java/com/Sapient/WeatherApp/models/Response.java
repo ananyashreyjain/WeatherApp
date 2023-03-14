@@ -15,7 +15,7 @@ public class Response {
         String print = "Response:{\n";
         for(int i=0;i<this.body.length;i++){
             if(this.body[i]!=null){
-                print += "\t" + this.body[i] + ", \n";
+                print += "\t" + this.body[i] + ",\n";
             }
         }
         print += "}\n";

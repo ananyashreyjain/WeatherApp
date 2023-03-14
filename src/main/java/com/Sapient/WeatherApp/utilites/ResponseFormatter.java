@@ -34,7 +34,6 @@ public class ResponseFormatter {
     private static String checkRain(final RawResponse rawResponse){
         for(int i=0;i<rawResponse.weather.size();i++){
             if(rawResponse.weather.get(i).toLowerCase().compareTo("rain") == 0){
-                System.out.println(RAIN_PREDICTION_COMMENT);
                 return RAIN_PREDICTION_COMMENT;
             }
         }
