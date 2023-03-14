@@ -9,6 +9,9 @@ import com.Sapient.WeatherApp.models.Response;
 import com.Sapient.WeatherApp.data.Cache;
 import com.Sapient.WeatherApp.utilites.Logger;
 
+/**
+ * Class responsible for making Http calls and caching responses
+ */
 public class HttpRequestManager {
 
     private final Request request;
@@ -21,8 +24,12 @@ public class HttpRequestManager {
         this.request = request;
     }
 
+    /**
+     * Main function handle the incoming request from the client
+     * @return String The formatted response for the incoming request
+     */
+
     public String makeRequest() {
-  
         RawResponse rawResponse = retrieveFromCache();
         if(rawResponse == null){
             if(isToggleOnline()){
@@ -37,6 +44,10 @@ public class HttpRequestManager {
         return ResponseFormatter.doFormatting(rawResponse).toString();
     }
 
+    /**
+     * Generates the URL for the sending the appropriate HTTP request
+     * @return String URL
+     */
     private String generateUrl(){
         final String generatedUrl = request.URL + "?" 
         + "appid" + "=" + request.appid
@@ -46,6 +57,10 @@ public class HttpRequestManager {
         return generatedUrl;
     }
 
+    /**
+     * Checks the Cache against the incoming request
+     * @return RawResponse The response received from the Cache
+     */
     private RawResponse retrieveFromCache(){
         RawResponse rawResponse = Cache.getCache().getHistory(request);
         if(rawResponse == null){
@@ -57,6 +72,10 @@ public class HttpRequestManager {
         return rawResponse;
     }
 
+    /**
+     * Checks if a network call can be made for completing the request
+     * @return Boolean 
+     */
     private Boolean isToggleOnline(){
         if(!request.onlineMode){
             Logger.getLogger().logWarn("Required request for location "
@@ -67,6 +86,10 @@ public class HttpRequestManager {
         return true;
     }
 
+    /**
+     * Sends the Http request with the appropriate details and updates the Cache
+     * @return RawResponse The response receive from the Http request
+     */
     private RawResponse makeRequestAndCache(){
         try{
             final String url = generateUrl();

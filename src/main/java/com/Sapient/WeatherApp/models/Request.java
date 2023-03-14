@@ -1,5 +1,8 @@
 package com.Sapient.WeatherApp.models;
 
+/**
+ * Model to store the data required for making a HTTP request
+ */
 public class Request {
 
     final public static String URL = "https://api.openweathermap.org/data/2.5/forecast";

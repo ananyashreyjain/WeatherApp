@@ -1,5 +1,8 @@
 package com.Sapient.WeatherApp.models;
 
+/**
+ * Model to store processed response data
+ */
 public class Response {
  
     public final String[] body;

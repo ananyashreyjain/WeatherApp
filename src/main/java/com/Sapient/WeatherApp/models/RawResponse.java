@@ -2,6 +2,9 @@ package com.Sapient.WeatherApp.models;
 
 import java.util.ArrayList;
 
+/**
+ * Model to store relevant response data for further processing
+ */
 public class RawResponse {
 
     public final ArrayList<String> maxTemp;

@@ -7,7 +7,15 @@ import org.json.simple.JSONArray;
 import com.Sapient.WeatherApp.models.RawResponse;
 import java.util.Iterator;
 
+/**
+ * Helper class to parse the response the json
+ * and capturing relevant data
+ */
 public class JsonParser{
+    /**
+     * Function reponsible for parsing the json
+     * @return RawResponse
+     */
     public static RawResponse parse(String response){
         JSONParser parser = new JSONParser();
         RawResponse rawResponse = new RawResponse();

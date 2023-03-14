@@ -5,6 +5,9 @@ import com.Sapient.WeatherApp.data.Trie;
 
 import java.time.LocalDateTime;
 
+/**
+ * Class to remove the outdated data from the trie
+ */
 class Heap {
     private final static Integer MAX = 10000;
     private Integer last;
@@ -17,6 +20,9 @@ class Heap {
         this.trie = trie;
     }
 
+    /**
+     * Funtion for re-construction of heap construct after deletion
+     */
     private void reOrderFromTop(final Integer index){
         final Integer left = index*2;
         final Integer right = index*2 + 1;
@@ -42,6 +48,9 @@ class Heap {
     }
 
 
+    /**
+     * Function to remove the oldest entry in the heap
+     */
     private void removeTop(){
         if(this.last == 0){
             return;
@@ -58,12 +67,18 @@ class Heap {
         }
     }
 
+    /**
+     * Function to ensure that cache has no outdate data
+     */
     public void cleanUp(final LocalDateTime now){
         while(this.last>0 && this.data[1].timeStamp.plusHours(1).isBefore(now)){
             removeTop();
         }
     }
 
+    /**
+     * Funtion for re-construction of heap construct after addition of a new node
+     */
     private void reOrderFromBottom(final Integer index){
         if(index <= 1){
             return;
@@ -77,6 +92,9 @@ class Heap {
         }
     }
 
+    /**
+     * Function to a add new node in the heap
+     */
     public void addNew(final String location, final LocalDateTime now){ 
         if(this.last+1<MAX){
             this.last = this.last + 1;
@@ -85,6 +103,9 @@ class Heap {
         }
     }
 
+    /**
+     * Function to get the oldest entry in the heap
+     */
     public HeapNode getTop(){
         if(this.last>0){
             return this.data[1];

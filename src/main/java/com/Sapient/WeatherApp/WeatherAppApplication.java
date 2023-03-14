@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Collections;
 
+/**
+ * Main class defining the starting point of the application
+ */
 @SpringBootApplication
 public class WeatherAppApplication {
 

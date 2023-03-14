@@ -4,6 +4,10 @@ import java.io.FileWriter;
 import java.io.File;
 import java.time.LocalDateTime;
 
+
+/**
+ * Class reponsible for providing logging utility
+ */
 public class Logger {
 
     private final FileWriter logWriter;
@@ -17,6 +21,11 @@ public class Logger {
         }
     }
 
+    /**
+     * Function responsible for getting 
+     * the instance for the singleton class
+     * @return Logger
+     */
     public static Logger getLogger(){
         if(instance == null){
             instance = new Logger();
@@ -24,6 +33,9 @@ public class Logger {
         return instance;
     }
 
+    /**
+     * Function response for logging informational data
+     */
     public void logInfo(final String message){
         synchronized(this){
             try{
@@ -35,6 +47,9 @@ public class Logger {
         }
     }
 
+    /**
+     * Function responsible for logging error pathways
+     */
     public void logError(final String message){
         synchronized(this){
             try{
@@ -46,6 +61,9 @@ public class Logger {
         }
     }
 
+    /**
+     * Function responsible for logging the warnings
+     */
     public void logWarn(final String message){
         synchronized(this){
             try{

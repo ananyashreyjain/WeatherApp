@@ -9,6 +9,10 @@ import com.Sapient.WeatherApp.models.Request;
 
 import java.util.Map;
 
+/**
+ * Class responsible for listening to requests
+ * and intiate processing of the same
+ */
 @RestController  
 public class RequestController
 {
@@ -19,6 +23,9 @@ public class RequestController
         "Expected params %s and %s are missing", NAME, LOCATION
     );
 
+    /**
+     * Function that describes the procedure for handling a request
+     */
     @GetMapping("/")  
     public String request(@RequestParam Map<String,String> params){
         if(params.containsKey(NAME) && params.containsKey(LOCATION)){

@@ -3,6 +3,10 @@ package com.Sapient.WeatherApp.utilites;
 import com.Sapient.WeatherApp.models.RawResponse;
 import com.Sapient.WeatherApp.models.Response;
 
+/**
+ * Function responsible for processing RawResponse
+ * and returning the expected Response
+ */
 public class ResponseFormatter {
 
     private static final String HIGH_TEMP_COMMENT = "Use sunscreen lotion";
@@ -11,6 +15,10 @@ public class ResponseFormatter {
     private static final Double HIGH_WIND_SPEED = 10.0;
     private static final Double HIGH_TEMP = 40.0;
     
+    /**
+     * Function responsible for giving high temperature warning
+     * @return String
+     */
     private static String checkTemp(final RawResponse rawResponse){
         if(rawResponse.maxTemp.size()>0 && 
             Double.valueOf(rawResponse.maxTemp.get(0)) >= HIGH_TEMP){
@@ -19,8 +27,11 @@ public class ResponseFormatter {
         return null;
     }
 
+    /**
+     * Function responsible for giving rain warning
+     * @return String
+     */
     private static String checkRain(final RawResponse rawResponse){
-        System.out.print(rawResponse.weather.get(0).toLowerCase());
         for(int i=0;i<rawResponse.weather.size();i++){
             if(rawResponse.weather.get(i).toLowerCase().compareTo("rain") == 0){
                 System.out.println(RAIN_PREDICTION_COMMENT);
@@ -30,6 +41,10 @@ public class ResponseFormatter {
         return null;
     }
 
+    /**
+     * Function responsible for giving high wind speed warning
+     * @return String
+     */
     private static String checkWinds(final RawResponse rawResponse){
         if(rawResponse.windSpeed.size()>0 && 
             Double.valueOf(rawResponse.windSpeed.get(0))>=HIGH_WIND_SPEED){
@@ -38,6 +53,10 @@ public class ResponseFormatter {
         return null;
     }
 
+    /**
+     * Function responsible for adding details about source of data
+     * @return String
+     */
     private static String isCached(final RawResponse rawResponse){
         if(rawResponse.isCached()) {
             return "Found in cache";
@@ -45,6 +64,10 @@ public class ResponseFormatter {
         return "Not found in cache. Network call was made";
     }
 
+    /**
+     * Function responsible for adding temperature data
+     * @return String
+     */
     private static String[] addTemp(final RawResponse rawResponse){
         Integer size = Math.max(rawResponse.maxTemp.size(), rawResponse.minTemp.size());
         String[] resp = new String[size];
@@ -63,6 +86,10 @@ public class ResponseFormatter {
         return resp;
     }
 
+    /**
+     * Publicly exposed function to format the rawResponse
+     * @return Response
+     */
     public static Response doFormatting(final RawResponse rawResponse){
         String commentTemp = checkTemp(rawResponse);
         String commentRain = checkRain(rawResponse);
