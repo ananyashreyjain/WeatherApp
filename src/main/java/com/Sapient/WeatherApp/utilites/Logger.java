@@ -12,10 +12,13 @@ public class Logger {
 
     private final FileWriter logWriter;
     private static Logger instance;
-    private static final String FILE = "src/main/java/com/Sapient/WeatherApp/logs/log.txt";
     private Logger(){
         try{
-            logWriter = new FileWriter(FILE);
+            String filePath = "logs/log.txt";
+            if(System.getenv("LOG_FILE_PATH")!=null){
+                filePath = System.getenv("LOG_FILE_PATH");
+            }
+            logWriter = new FileWriter(filePath);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }
