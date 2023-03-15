@@ -9,6 +9,8 @@ import com.Sapient.WeatherApp.models.Response;
 import com.Sapient.WeatherApp.data.Cache;
 import com.Sapient.WeatherApp.utilites.Logger;
 
+import java.time.LocalDateTime;
+
 /**
  * Class responsible for making Http calls and caching responses
  */
@@ -37,11 +39,13 @@ public class HttpRequestManager {
                 if(rawResponse == null){
                     return HTTP_REQUEST_ERROR;
                 }
-                return ResponseFormatter.doFormatting(rawResponse).toString();
+                return ResponseFormatter.doFormatting(rawResponse,
+                    LocalDateTime.now()).toString();
             }
             return OFFLINE_MODE_ERROR;
         }
-        return ResponseFormatter.doFormatting(rawResponse).toString();
+        return ResponseFormatter.doFormatting(rawResponse,
+            LocalDateTime.now()).toString();
     }
 
     /**

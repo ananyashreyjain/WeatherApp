@@ -2,6 +2,8 @@ package com.Sapient.WeatherApp.utilites;
 
 import com.Sapient.WeatherApp.models.RawResponse;
 import com.Sapient.WeatherApp.models.Response;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Function responsible for processing RawResponse
@@ -12,6 +14,7 @@ public class ResponseFormatter {
     private static final String HIGH_TEMP_COMMENT = "Use sunscreen lotion";
     private static final String RAIN_PREDICTION_COMMENT = "Carry umbrella";
     private static final String HIGH_WIND_COMMENT = "It’s too windy, watch out!";
+    private static final String THUNDERSTORM_COMMENT = "Don’t step out! A Storm is brewing!";
     private static final Double HIGH_WIND_SPEED = 10.0;
     private static final Double HIGH_TEMP = 40.0;
     
@@ -32,10 +35,21 @@ public class ResponseFormatter {
      * @return String
      */
     private static String checkRain(final RawResponse rawResponse){
-        for(int i=0;i<rawResponse.weather.size();i++){
-            if(rawResponse.weather.get(i).toLowerCase().compareTo("rain") == 0){
+        if(rawResponse.weather.size()>0 && 
+            rawResponse.weather.get(0).toLowerCase().compareTo("rain") == 0){
                 return RAIN_PREDICTION_COMMENT;
-            }
+        }
+        return null;
+    }
+
+    /**
+     * Function responsible for giving thunderstorm warning
+     * @return String
+     */
+    private static String checkThunderstorm(final RawResponse rawResponse){
+        if(rawResponse.weather.size()>0 && 
+            rawResponse.weather.get(0).toLowerCase().compareTo("thunderstorm") == 0){
+                return THUNDERSTORM_COMMENT;
         }
         return null;
     }
@@ -67,11 +81,13 @@ public class ResponseFormatter {
      * Function responsible for adding temperature data
      * @return String
      */
-    private static String[] addTemp(final RawResponse rawResponse){
+    private static String[] addTemp(final RawResponse rawResponse,
+                                    final LocalDateTime now){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");   
         Integer size = Math.max(rawResponse.maxTemp.size(), rawResponse.minTemp.size());
         String[] resp = new String[size];
         for(int i=0;i<size;i++){
-            resp[i] = "Temperature Day " + Integer.valueOf(i) + " => ";
+            resp[i] = "Date " + dtf.format(now.plusDays(i)) + " => ";
             resp[i] += "Min:";
             if(i<rawResponse.minTemp.size()){
                 resp[i] += rawResponse.minTemp.get(i);
@@ -89,20 +105,23 @@ public class ResponseFormatter {
      * Publicly exposed function to format the rawResponse
      * @return Response
      */
-    public static Response doFormatting(final RawResponse rawResponse){
+    public static Response doFormatting(final RawResponse rawResponse,
+                                        final LocalDateTime now){
         String commentTemp = checkTemp(rawResponse);
         String commentRain = checkRain(rawResponse);
+        String commentThunderstorm = checkThunderstorm(rawResponse);
         String commentWinds = checkWinds(rawResponse);
         String commentCached = isCached(rawResponse);
-        String[] temperatures = addTemp(rawResponse);
-        String[] output = new String[temperatures.length + 4];
+        String[] temperatures = addTemp(rawResponse, now);
+        String[] output = new String[temperatures.length + 5];
         for(int i=0;i<temperatures.length;i++){
             output[i] = temperatures[i];
         }
         output[temperatures.length] = commentTemp;
         output[temperatures.length+1] = commentRain;
-        output[temperatures.length+2] = commentWinds;
-        output[temperatures.length+3] = commentCached;
+        output[temperatures.length+2] = commentThunderstorm;
+        output[temperatures.length+3] = commentWinds;
+        output[temperatures.length+4] = commentCached;
         return new Response(output);
     }
 
